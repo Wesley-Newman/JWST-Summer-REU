@@ -121,8 +121,8 @@ def better_psf_fitting(fits_file, header, shift_amount, test_size, gaia_star_fie
     boxsize = 50
  
     with fits.open(fits_file) as hdul:
-        obs_psf     = Cutout2D(hdul['SCI'].data, position=psf_center, size=boxsize).data.copy()
-        obs_psf_err = Cutout2D(hdul['ERR'].data, position=psf_center, size=boxsize).data.copy()
+        obs_psf     = Cutout2D(hdul['SCI'].data, position=psf_center, size=boxsize, mode='partial', fill_value=np.nan).data.copy()
+        obs_psf_err = Cutout2D(hdul['ERR'].data, position=psf_center, size=boxsize, mode='partial', fill_value=np.nan).data.copy()
  
     obs_psf    -= np.nanmedian(obs_psf)          
  
@@ -256,8 +256,8 @@ def plot_data_sim_comparison(masked_x_coords, masked_y_coords, file, header, gai
     # Load that science data. Cut out the surface brightness and uncertainty for the desired location
     obs_im = fits.open(file)
 
-    obs_psf = Cutout2D(obs_im['SCI'].data, position=psf_center, size=boxsize).data
-    obs_psf_err = Cutout2D(obs_im['ERR'].data, position=psf_center, size=boxsize).data
+    obs_psf = Cutout2D(obs_im['SCI'].data, position=psf_center, size=boxsize, mode='partial', fill_value=np.nan).data
+    obs_psf_err = Cutout2D(obs_im['ERR'].data, position=psf_center, size=boxsize, mode='partial', fill_value=np.nan).data
 
     obs_psf -= np.nanmedian(obs_psf)    # perform a simple background subtraction) 
 
